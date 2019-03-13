@@ -4,16 +4,16 @@ This project contains Frontend code written in Vue.js, api's written using Expre
 
 Technologies Used:
 
-Frontend: Vue.js, Bootstrap-4, eslint
-```
-Api's: Node.js, Express.js
-```
-Database: MongoDB
-```
-Unit Tests: Jest
-```
-E2E: Nightwatch
-```
+Frontend: Vue.js, Bootstrap-4, eslint</br>
+
+Api's: Node.js, Express.js</br>
+
+Database: MongoDB</br>
+
+Unit Tests: Jest</br>
+
+E2E: Nightwatch</br>
+
 
 To run the application, please follow below steps.
 
