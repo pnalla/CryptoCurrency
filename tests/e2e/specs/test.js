@@ -2,13 +2,13 @@
 // http://nightwatchjs.org/guide#usage
 
 module.exports = {
-  'default e2e tests': browser => {
+  'Testing Currency Report Data': browser => {
     browser
       .url(process.env.VUE_DEV_SERVER_URL)
       .waitForElementVisible('#app', 5000)
-      .assert.elementPresent('.hello')
-      .assert.containsText('h1', 'Welcome to Your Vue.js App')
-      .assert.elementCount('img', 1)
+      .assert.elementPresent('.profit_table_20180507')
+      .assert.elementPresent('.profit_table_profit_BTC')
+      .assert.containsText('td', '2.030')
       .end()
   }
 }

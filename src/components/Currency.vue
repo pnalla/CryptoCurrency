@@ -19,46 +19,47 @@
               <option value="LTC">LTC</option>
           </select>
         </div>
-        <!-- <button type="submit" class="btn btn-primary mb-2">Get Report</button> -->
       </form>
     </div>
-    <div class="col-12 d-flex justify-content-around" v-if="profitArray.length > 0">
-      <table class="table-bordered col-3" v-for="(item, index) in profitArray" :key="index">
-        <thead>
-          <tr>
-            <td colspan="2"> {{ item.date | stringToDate}} </td>
-          </tr>
-          <tr>
-            <td colspan="2" class="currency"><strong> {{ item.currency }} </strong> </td>
-          </tr>
-          <tr>
-            <td> <strong> Buy </strong> </td>
-            <td> <strong> Sell </strong> </td>
-          </tr>
-        </thead>
-        <tbody v-if="item.minValue == 0 && item.maxValue == 0">
-          <tr>
-            <td colspan="2">
-              <strong class="text-danger">No Profit</strong>
-            </td>
-          </tr>
-        </tbody>
-        <tbody v-else>
-          <tr>
-            <td> {{ item.minValue }} </td>
-            <td> {{ item.maxValue }} </td>
-          </tr>
-          <tr>
-            <td> {{ item.minTime }} </td>
-            <td> {{ item.maxTime }} </td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <strong>Profit: </strong> {{ (item.maxValue - item.minValue).toFixed(3) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row" v-if="profitArray.length > 0">
+      <div class="col-4 mt-2" v-for="(item, index) in profitArray" :key="index">
+        <table class="table-bordered" :name="`profit_table${item.date}`" >
+          <thead>
+            <tr>
+              <td colspan="2"> {{ item.date | stringToDate}} </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="currency"><strong> {{ item.currency }} </strong> </td>
+            </tr>
+            <tr>
+              <td> <strong> Buy </strong> </td>
+              <td> <strong> Sell </strong> </td>
+            </tr>
+          </thead>
+          <tbody v-if="item.minValue == 0 && item.maxValue == 0">
+            <tr>
+              <td colspan="2">
+                <strong class="text-danger">No Profit</strong>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td> {{ item.minValue }} </td>
+              <td> {{ item.maxValue }} </td>
+            </tr>
+            <tr>
+              <td> {{ item.minTime }} </td>
+              <td> {{ item.maxTime }} </td>
+            </tr>
+            <tr>
+              <td colspan="2" :name="`profit_table_profit${item.currency}`">
+                <strong>Profit: </strong> {{ (item.maxValue - item.minValue).toFixed(3) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div v-else>
       No content to display
@@ -89,6 +90,7 @@ export default {
     }
   },
   beforeMount () {
+    // sample data for different scenarios
     // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '36.13' }, { 'time': '1050', 'price': '37.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
     // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '37.98' }, { 'time': '1045', 'price': '36.13' }, { 'time': '1050', 'price': '35.01' }, { 'time': '1230', 'price': '34.01' }, { 'time': '1400', 'price': '33.98' }, { 'time': '1530', 'price': '32.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
     // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '39.13' }, { 'time': '1050', 'price': '38.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
@@ -98,7 +100,6 @@ export default {
     // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '34.98' }, { 'time': '1050', 'price': '34.98' }, { 'time': '1230', 'price': '34.98' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
     // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '45.13' }, { 'time': '1050', 'price': '29.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
     this.getCurrencyData()
-    // this.calculateProfits()
   },
   watch: {
     currencyDate () {
@@ -119,7 +120,7 @@ export default {
         let maxLength = element.quotes.length
         for (let i = 0; i < maxLength; i++) {
           let maxObj = element.quotes.reduce((max, item) => max && max.price > item.price ? max : item, null)
-          let minObjArray = this.getMinValueObj(maxObj, element)
+          let minObjArray = this.getMinObjectsArray(maxObj, element)
           let minObj = minObjArray.reduce((min, item) => min && min.price < item.price ? min : item, null)
           if (minObj && minObj.price <= maxObj.price) {
             let item = {}
@@ -174,7 +175,6 @@ export default {
       axios.get(`./currency-data.json`)
         .then((response) => {
           if (response && response.status === 200) {
-            let date = moment(this.currencyDate).format('YYYYMMDD')
             this.currencyData = response.data
             this.calculateProfits(this.currencyData)
             this.getFilteredData()
@@ -184,7 +184,7 @@ export default {
           console.log('Error in getting currency data: ' + e)
         })
     },
-    getMinValueObj (maxObj, element) {
+    getMinObjectsArray (maxObj, element) {
       let tempArray = []
       let date = element.date
       element.quotes.forEach(e => {
@@ -193,7 +193,6 @@ export default {
           tempArray.push(e)
         }
       })
-
       return tempArray
     }
   }
@@ -204,6 +203,7 @@ export default {
 <style scoped lang="scss">
 table {
   border: 1px solid gray;
+  width: 100%;
 }
 td {
   padding: 10px;
