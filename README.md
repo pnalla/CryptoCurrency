@@ -57,3 +57,10 @@ To run server code: go to server folder and run
 npm start
 
 The server starts with connecting MongoCloud Atlas and api's are ready to use.
+
+### Screenshots
+![Alt text](screenshot.png?raw=true "Report Page")
+
+![Alt text](screenshot_date_filter.png?raw=true "Report with date filter")
+
+![Alt text](screenshot_select_filter.png?raw=true "Report with currency filter")
