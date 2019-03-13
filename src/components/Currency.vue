@@ -116,7 +116,6 @@ export default {
       this.profitArray = []
       let tempCurrencyArray = JSON.parse(JSON.stringify(currencyData))
       tempCurrencyArray.forEach(element => {
-        // let maxValue = Math.max.apply(Math, element.quotes.map(e => e.price))
         let maxLength = element.quotes.length
         for (let i = 0; i < maxLength; i++) {
           let maxObj = element.quotes.reduce((max, item) => max && max.price > item.price ? max : item, null)
@@ -145,7 +144,6 @@ export default {
 
               this.profitArray.push(item)
             }
-            console.log('element quostes: ' + JSON.stringify(element.quotes))
           }
         }
       })
