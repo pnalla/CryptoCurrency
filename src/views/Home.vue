@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Currency msg="Welcome to Your Vue.js App" />
+    <Currency msg="Crypto Currency Dashboard" />
   </div>
 </template>
 

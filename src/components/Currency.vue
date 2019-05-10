@@ -11,7 +11,7 @@
         </div>
         <div class="form-group mx-sm-3 mb-2">
           <label for="currency" class="pr-2">Or</label>
-          <select class="form-control" name="currency" v-model="currency" @change="getFilteredData()" v-validate="'required|excluded:1'">
+          <select id="select-currency" class="form-control" name="currency" v-model="currency" @change="getFilteredData()" v-validate="'required|excluded:1'">
               <option :value=null disabled selected>Select Currency</option>
               <option value="All">All</option>
               <option value="BTC">BTC</option>
@@ -69,9 +69,10 @@
 
 <script>
 import moment from 'moment'
-import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
 import svc from '../constants'
+import api from '../api'
+import axios from 'axios'
 
 export default {
   name: 'Currency',
@@ -90,15 +91,6 @@ export default {
     }
   },
   beforeMount () {
-    // sample data for different scenarios
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '36.13' }, { 'time': '1050', 'price': '37.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '37.98' }, { 'time': '1045', 'price': '36.13' }, { 'time': '1050', 'price': '35.01' }, { 'time': '1230', 'price': '34.01' }, { 'time': '1400', 'price': '33.98' }, { 'time': '1530', 'price': '32.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '39.13' }, { 'time': '1050', 'price': '38.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '31.98' }, { 'time': '1045', 'price': '40.13' }, { 'time': '1050', 'price': '30.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '40.98' }, { 'time': '1045', 'price': '30.13' }, { 'time': '1050', 'price': '39.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '39.98' }, { 'time': '1045', 'price': '30.13' }, { 'time': '1050', 'price': '40.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '34.98' }, { 'time': '1050', 'price': '34.98' }, { 'time': '1230', 'price': '34.98' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
-    // this.currencyData = [ { 'currency': 'BTC', 'date': '20180507', 'quotes': [{ 'time': '0915', 'price': '34.98' }, { 'time': '1045', 'price': '45.13' }, { 'time': '1050', 'price': '29.01' }, { 'time': '1230', 'price': '37.01' }, { 'time': '1400', 'price': '35.98' }, { 'time': '1530', 'price': '33.56' }] }, { 'currency': 'ETC', 'date': '20180507', 'quotes': [{ 'time': '0900', 'price': '1.45' }, { 'time': '1030', 'price': '1.87' }, { 'time': '1245', 'price': '1.55' }, { 'time': '1515', 'price': '2.01' }, { 'time': '1700', 'price': '2.15' }] }, { 'currency': 'LTC', 'date': '20180507', 'quotes': [{ 'time': '0930', 'price': '14.32' }, { 'time': '1115', 'price': '14.87' }, { 'time': '1245', 'price': '15.03' }, { 'time': '1400', 'price': '14.76' }, { 'time': '1700', 'price': '14.15' }] }]
     this.getCurrencyData()
   },
   watch: {
@@ -114,12 +106,17 @@ export default {
   methods: {
     calculateProfits (currencyData) {
       this.profitArray = []
+      // copy the currency data to temp array
       let tempCurrencyArray = JSON.parse(JSON.stringify(currencyData))
       tempCurrencyArray.forEach(element => {
         let maxLength = element.quotes.length
+        // iterate over currency elements
         for (let i = 0; i < maxLength; i++) {
+          // get the max value of the currency data
           let maxObj = element.quotes.reduce((max, item) => max && max.price > item.price ? max : item, null)
+          // get the array of elements which are less than max value and time
           let minObjArray = this.getMinObjectsArray(maxObj, element)
+          // get the minimum value from the above array
           let minObj = minObjArray.reduce((min, item) => min && min.price < item.price ? min : item, null)
           if (minObj && minObj.price <= maxObj.price) {
             let item = {}
@@ -133,6 +130,8 @@ export default {
             this.profitArray.push(item)
             break
           } else {
+            // if the value is not found get the next max element for the initial array
+            // and follows the same process
             let indexOfMaxObj = element.quotes.findIndex(x => (x.price === maxObj.price && x.time === maxObj.time))
             element.quotes.splice(indexOfMaxObj, 1)
             if (element.quotes.length === 0) {
@@ -149,6 +148,7 @@ export default {
       })
     },
     getFilteredData () {
+      // Apply filters based the selected value in the UI
       let date = moment(this.currencyDate).format('YYYYMMDD')
       let currency = this.currency
       let filter = []
@@ -158,18 +158,9 @@ export default {
         filter = this.currencyData.filter(e => (e.date === date && e.currency === currency))
       }
       this.calculateProfits(filter)
-      // axios.get(svc.currency + `/currency/data`)
-      //   .then((response) => {
-      //     if (response && response.status === 200) {
-      //       this.currencyData = response.data
-      //       this.calculateProfits()
-      //     }
-      //   })
-      //   .catch((e) => {
-      //     console.log('Error in getting currency data: ' + e)
-      //   })
     },
     getCurrencyData () {
+      // Get the currency data
       axios.get(`./currency-data.json`)
         .then((response) => {
           if (response && response.status === 200) {
@@ -183,6 +174,7 @@ export default {
         })
     },
     getMinObjectsArray (maxObj, element) {
+      // getting the min obj which are less than the max obj passed.
       let tempArray = []
       let date = element.date
       element.quotes.forEach(e => {
