@@ -1,8 +1,11 @@
 # CryptoCurrency Report
 
-This project contains Frontend code written in Vue.js, api's written using Express.js, no sql DB with MongoDB
+This project contains Frontend code written in Vue.js, api's written using Express.js, no sql DB with MongoDB. </br>
+This project has both UI code and server code. Details about running the app are mentioned below. </br>
+When we run the UI code, the app runs successfully with json file data. </br>
+Server code needs to run separately which connects MongoDB using node.js/Express.js api's </br>
 
-Technologies Used:
+# Technologies Used:
 
 Frontend: Vue.js, Bootstrap-4, eslint</br>
 
