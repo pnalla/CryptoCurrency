@@ -59,8 +59,8 @@ npm start
 The server starts with connecting MongoCloud Atlas and api's are ready to use.
 
 ### Screenshots
-![Alt text](screenshot.png?raw=true "Report Page")
+![alt text](screenshot.PNG "Report Page")
 
-![Alt text](screenshot_date_filter.png?raw=true "Report with date filter")
+![alt text](screenshot_date_filter.PNG "Report with date filter")
 
-![Alt text](screenshot_select_filter.png?raw=true "Report with currency filter")
+![alt text](screenshot_select_filter.PNG "Report with currency filter")
