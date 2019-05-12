@@ -1,6 +1,12 @@
 import Currency from '@/components/Currency.vue'
 import { shallowMount } from '@vue/test-utils'
 
+beforeEach(() => {
+  const wrapper = shallowMount(Currency)
+  // calling mounted method to check the data is filled in
+  wrapper.vm.getCurrencyData()
+})
+
 describe('Currency.vue', () => {
   it('renders props.msg when passed', () => {
     const msg = 'Crypto Currency Report'
@@ -11,13 +17,9 @@ describe('Currency.vue', () => {
   })
 })
 
-
 describe('display the list of currency data in tables', () => {
   const wrapper = shallowMount(Currency)
   
-  // calling mounted method to check the data is filled in
-  wrapper.vm.getCurrencyData()
-
   // check the element is present or not
   expect(wrapper.find('[name="profit_table20180507"]').exists()).toBe(true)
 
@@ -31,8 +33,6 @@ describe('display the list of currency data in tables', () => {
 describe('Validate tables based on select dropdown value', () => {
   const wrapper = shallowMount(Currency)
   
-  wrapper.vm.getCurrencyData()
-
   // select LTC from the the dropdown
   wrapper.find('#select-currency').simulate("change", {
     target: { value: "LTC", selectedIndex: 3 }
@@ -41,3 +41,4 @@ describe('Validate tables based on select dropdown value', () => {
   // expect the profit value of LTC is 0.710
   expect(wrapper.find('[name="profit_table_profitLTC"]').text()).toEqual('0.710')
 })
+

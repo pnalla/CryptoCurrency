@@ -87,7 +87,7 @@ export default {
       currencyData: [],
       profitArray: [],
       currencyDate: new Date(2018, 4, 7),
-      currency: null,
+      currency: 'All',
     }
   },
   beforeMount () {
